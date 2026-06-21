@@ -1,0 +1,16 @@
+package com.universaltranslator.repository;
+
+import com.universaltranslator.model.Translation;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+/**
+ * Interfaz de repositorio para la entidad Translation.
+ * Extiende JpaRepository para heredar automáticamente los métodos CRUD (Crear, Leer, Actualizar, Borrar).
+ * Conecta directamente el modelo con la base de datos MySQL.
+ * @author Juan Pablo Guevara Guzmán
+ */
+@Repository
+public interface TranslationRepository extends JpaRepository<Translation, Long> {
+    // Aquí se pueden declarar consultas personalizadas en el futuro si el proyecto lo requiere
+}

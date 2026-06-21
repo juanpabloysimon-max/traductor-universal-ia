@@ -1,0 +1,52 @@
+package com.universaltranslator.controller;
+
+import com.universaltranslator.model.Translation;
+import com.universaltranslator.service.TranslationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * Controlador REST que expone los servicios web del traductor.
+ * Permite la comunicación desde el navegador web o la app móvil.
+ * @author Juan Pablo Guevara Guzmán
+ */
+@RestController
+@RequestMapping("/api/v1/translations")
+@CrossOrigin(origins = "*") // Habilita la conexión desde cualquier frontend
+public class TranslationController {
+
+    private final TranslationService translationService;
+
+    @Autowired
+    public TranslationController(TranslationService translationService) {
+        this.translationService = translationService;
+    }
+
+    /**
+     * Endpoint para recibir un texto y procesar su traducción.
+     * Acceso: POST /api/v1/translations
+     */
+    @PostMapping
+    public ResponseEntity<Translation> createTranslation(
+            @RequestParam String text,
+            @RequestParam String sourceLang,
+            @RequestParam String targetLang) {
+        
+        Translation result = translationService.processTranslation(text, sourceLang, targetLang);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    /**
+     * Endpoint para consultar el historial completo de traducciones.
+     * Acceso: GET /api/v1/translations
+     */
+    @GetMapping
+    public ResponseEntity<List<Translation>> getAllTranslations() {
+        List<Translation> history = translationService.getTranslationHistory();
+        return new ResponseEntity<>(history, HttpStatus.OK);
+    }
+}

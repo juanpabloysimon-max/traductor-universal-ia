@@ -1,0 +1,45 @@
+package com.universaltranslator.service;
+
+import com.universaltranslator.model.Translation;
+import com.universaltranslator.repository.TranslationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
+/**
+ * Servicio encargado de la lógica de negocio para el módulo de traducción.
+ * Maneja la simulación del procesamiento de IA y la comunicación con el repositorio.
+ * @author Juan Pablo Guevara Guzmán
+ */
+@Service
+public class TranslationService {
+
+    private final TranslationRepository translationRepository;
+
+    @Autowired
+    public TranslationService(TranslationRepository translationRepository) {
+        this.translationRepository = translationRepository;
+    }
+
+    /**
+     * Procesa una solicitud de traducción, simula la respuesta de la IA
+     * y guarda el registro completo en la base de datos.
+     */
+    public Translation processTranslation(String text, String sourceLang, String targetLang) {
+        // Simulación técnica de la traducción que generaría el modelo de IA
+        String simulatedTranslation = "[Traducción Inteligencia Artificial al " + targetLang + "]: " + text;
+
+        // Creamos el objeto con los datos procesados
+        Translation translation = new Translation(text, simulatedTranslation, sourceLang, targetLang);
+        
+        // Lo guardamos en MySQL a través del repositorio
+        return translationRepository.save(translation);
+    }
+
+    /**
+     * Recupera el historial completo de traducciones almacenadas.
+     */
+    public List<Translation> getTranslationHistory() {
+        return translationRepository.findAll();
+    }
+}
